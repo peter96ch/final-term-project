@@ -36,20 +36,48 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            animator.SetBool("isMoving", success);
+            animator.SetBool("isMoving", success && movementInput.x != 0);
         }
         else
         {
             animator.SetBool("isMoving", false);
+            //animator.SetBool("MoveDown", false);
+            //animator.SetBool("MoveUp", false);
         }
 
         if(movementInput.x < 0)
         {
             spriteRenderer.flipX = true;
+            animator.SetBool("MoveUp", false);
+            animator.SetBool("MoveDown", false);
         }else if(movementInput.x > 0)
         {
             spriteRenderer.flipX = false;
+            animator.SetBool("MoveUp", false);  
+            animator.SetBool("MoveDown", false);
+        }else if(movementInput.x == 0)
+        {
+            if(movementInput.y != 0){
+            if(movementInput.y > 0)
+            {
+                animator.SetBool("MoveUp", true);
+                animator.SetBool("MoveDown", false);
+
+            }else if(movementInput.y < 0)
+            {
+                animator.SetBool("MoveDown", true);
+                animator.SetBool("MoveUp", false);
+            }
+            }
+            else if(movementInput.y == 0)
+            {
+                animator.SetBool("MoveUp", false);
+                animator.SetBool("MoveDown", false);
+                animator.SetBool("isMoving", false);
+            }
+            
         }
+        
     }
 
     private bool TryMove(Vector2 direction)
